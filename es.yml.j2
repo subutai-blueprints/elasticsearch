@@ -1,6 +1,9 @@
 ---
 - name: install es
-  hosts: {{hostname}}
+  hosts: wp
+  vars:
+     es_api_basic_auth_username : "{{ subutai.user_variables.es_api_basic_auth_username }}"
+     es_api_basic_auth_password : "{{ subutai.user_variables.es_api_basic_auth_password }}"
   roles:
     - role: elastic.elasticsearch
-      es_instance_name: "{{hostname}}"
+      es_instance_name: "wp"
