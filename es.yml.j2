@@ -2,11 +2,11 @@
 - name: install es
   hosts: es
   vars:
-     es_api_basic_auth_username : "{{ subutai.user_variables.es_api_basic_auth_username }}"
-     es_api_basic_auth_password : "{{ subutai.user_variables.es_api_basic_auth_password }}"
+     es_api_basic_auth_username : "username"
+     es_api_basic_auth_password : "password"
   roles:
     - role: elastic.elasticsearch
-      es_instance_name: "wp"
+      es_instance_name: "es"
 
   post_tasks:
     - name: install nginx
@@ -30,25 +30,23 @@
       service:
         name: nginx
         state: restarted
-  - name: add variable
-    shell: cat  /etc/environment | grep ES_PATH_CONF | wc -l
-    register: eexists
 
-  - name: set ES_PATH_CONF variable
-    template:
+    - name: add variable
+      shell: cat  /etc/environment | grep ES_PATH_CONF | wc -l
+      register: eexists
+
+    - name: set ES_PATH_CONF variable
+      template:
        src: environment.j2
        dest: /etc/environment
        owner: root
        mode: "u=rw,g=r,o=r"
-    when: eexists == "0"
+      when: eexists == "0"
 
-  - name: add variable
-    shell: echo 'ES_PATH_CONF=/etc/elasticsearch' >> /etc/environment
+    - name: Check if Package is installed
+      shell: bash /usr/share/elasticsearch/bin/elasticsearch-plugin list | grep 'analysis-icu' | wc -l
+      register: installed
 
-  - name: Check if Package is installed
-    shell: bash /usr/share/elasticsearch/bin/elasticsearch-plugin list | grep 'analysis-icu' | wc -l
-    register: installed
-
-  - name: install analysis-icu
-    shell: ES_PATH_CONF=/etc/elasticsearch; bash /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
-    when: installed.stdout == "0"
+    - name: install analysis-icu
+      shell: ES_PATH_CONF=/etc/elasticsearch; bash /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
+      when: installed.stdout == "0"
