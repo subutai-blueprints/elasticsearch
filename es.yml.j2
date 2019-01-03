@@ -7,3 +7,16 @@
   roles:
     - role: elastic.elasticsearch
       es_instance_name: "wp"
+
+  post_tasks:
+    - name: delete default nginx conf
+      file:
+       state: absent
+       path: /etc/nginx/sites-enabled/default
+
+    - name: copy es nginx conf
+      template:
+       src: app.conf
+       dest: /etc/nginx/sites-enabled/app.conf
+       owner: root
+       mode: "u=rw,g=r,o=r"
