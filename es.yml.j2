@@ -20,3 +20,8 @@
        dest: /etc/nginx/sites-enabled/app.conf
        owner: root
        mode: "u=rw,g=r,o=r"
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
