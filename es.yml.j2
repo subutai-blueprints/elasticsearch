@@ -30,3 +30,6 @@
       service:
         name: nginx
         state: restarted
+        
+    - name: install analysis-icu
+      shell: bash /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
