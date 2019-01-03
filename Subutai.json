@@ -11,10 +11,10 @@
             "size": "${containerSize}",
                 "port-mapping": [
                 {
-                    "protocol": "http",
+                    "protocol": "https",
                     "domain": "${domainName}",
                     "internal-port": "80",
-                    "external-port": "80"
+                    "external-port": "443"
                 }
             ]
         }
@@ -54,13 +54,13 @@
         "environmentName": {
             "description": "Enter the environment name",
             "type": "string",
-            "default": "wp",
+            "default": "Elasticsearch",
             "validation": "[a-zA-Z0-9]+"
         },
         "containerName": {
             "description": "Enter the container's hostname",
             "type": "string",
-            "default": "wp",
+            "default": "elasticsearch",
             "validation": "[a-zA-Z0-9]+"
         },
         "containerSize": {
