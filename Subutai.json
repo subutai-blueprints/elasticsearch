@@ -43,7 +43,7 @@
            ],
         "groups": [
             {
-                "name": "wp",
+                "name": "es",
                 "hostnames": [
                     "${containerName}"
                 ]
