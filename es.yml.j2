@@ -9,6 +9,11 @@
       es_instance_name: "wp"
 
   post_tasks:
+    - name: install nginx
+      package:
+       name: nginx
+       state: present
+
     - name: delete default nginx conf
       file:
        state: absent
