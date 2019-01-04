@@ -4,6 +4,20 @@
   vars:
      es_api_basic_auth_username : "username"
      es_api_basic_auth_password : "password"
+     
+  pre_tasks:
+    - name: add variable
+      shell: cat  /etc/environment | grep ES_PATH_CONF | wc -l
+      register: eexists
+
+    - name: set ES_PATH_CONF variable
+      template:
+       src: environment.j2
+       dest: /etc/environment
+       owner: root
+       mode: "u=rw,g=r,o=r"
+      when: eexists.stdout == "0"
+
   roles:
     - role: elastic.elasticsearch
       es_instance_name: "es"
@@ -30,3 +44,11 @@
       service:
         name: nginx
         state: restarted
+
+    - name: Check if Package is installed
+      shell: bash /usr/share/elasticsearch/bin/elasticsearch-plugin list | grep 'analysis-icu' | wc -l
+      register: installed
+
+    - name: install analysis-icu
+      shell: bash /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
+      when: installed.stdout == "0"
