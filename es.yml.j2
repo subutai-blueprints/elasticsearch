@@ -19,7 +19,7 @@
       when: eexists.stdout == "0"
       
     - name: add variable
-      shell: source  /etc/environment
+      shell: . /etc/environment
       when: eexists.stdout == "0"
       
 
