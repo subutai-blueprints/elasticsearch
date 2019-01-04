@@ -17,6 +17,11 @@
        owner: root
        mode: "u=rw,g=r,o=r"
       when: eexists.stdout == "0"
+      
+    - name: add variable
+      shell: source  /etc/environment
+      when: eexists.stdout == "0"
+      
 
   roles:
     - role: elastic.elasticsearch
