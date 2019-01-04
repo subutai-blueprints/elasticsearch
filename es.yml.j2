@@ -30,23 +30,3 @@
       service:
         name: nginx
         state: restarted
-
-    - name: add variable
-      shell: cat  /etc/environment | grep ES_PATH_CONF | wc -l
-      register: eexists
-
-    - name: set ES_PATH_CONF variable
-      template:
-       src: environment.j2
-       dest: /etc/environment
-       owner: root
-       mode: "u=rw,g=r,o=r"
-      when: eexists.stdout == "0"
-
-    - name: Check if Package is installed
-      shell: bash /usr/share/elasticsearch/bin/elasticsearch-plugin list | grep 'analysis-icu' | wc -l
-      register: installed
-
-    - name: install analysis-icu
-      shell: bash /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
-      when: installed.stdout == "0"
