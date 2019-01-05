@@ -18,6 +18,3 @@
       
   - name: install elasticsearch in node
     shell: ansible-playbook es.yml -i /etc/ansible/elasticsearch-master.hosts  --extra-vars "@extra-vars.json" >> /tmp/es.logs
-    
-  - name: install plugin
-    shell: ansible-playbook installplugin.yml -i /etc/ansible/elasticsearch-master.hosts
